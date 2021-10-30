@@ -18,10 +18,17 @@ async function run() {
         const tourCollection = database.collection('tour_pakages');
         const bdTourCollection = database.collection('bd_places');
         const guideCollection = database.collection('guide');
+        const stuffCollection = database.collection('stuff');
+
+        app.get('/stuff', async (req, res) => {
+            const cursor = stuffCollection.find({})
+            const stuff = await cursor.toArray();
+            res.send(stuff);
+        })
         app.get('/guide', async (req, res) => {
             const cursor = guideCollection.find({})
             const guide = await cursor.toArray();
-            console.log(guide);
+
             res.send(guide);
         })
 
