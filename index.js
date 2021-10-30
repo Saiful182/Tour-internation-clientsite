@@ -16,8 +16,14 @@ async function run() {
         await client.connect();
         const database = client.db('Tour_International');
         const tourCollection = database.collection('tour_pakages');
+        const bdTourCollection = database.collection('bd_places')
 
-
+        app.get('/bdplaces', async (req, res) => {
+            const cursor = bdTourCollection.find({});
+            const bdplaces = await cursor.toArray();
+            res.send(bdplaces);
+            console.log(bdplaces);
+        })
         app.get('/tourpakages', async (req, res) => {
             const cursor = tourCollection.find({});
             const tourPakages = await cursor.toArray();
