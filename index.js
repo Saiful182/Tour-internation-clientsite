@@ -32,6 +32,9 @@ run().catch(console.dir)
 app.get('/', (req, res) => {
     res.send('hellow from the other side');
 })
+app.get('/help', (req, res) => {
+    res.send('hellow from help');
+})
 app.listen(port, () => {
     console.log('from port');
 })
