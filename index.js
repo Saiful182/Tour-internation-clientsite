@@ -20,8 +20,18 @@ async function run() {
         const guideCollection = database.collection('guide');
         const stuffCollection = database.collection('stuff');
         const commentsCollection = database.collection('comments');
+        const cartCollection = database.collection('cart');
 
-
+        app.post('/cart', async (req, res) => {
+            const cart = req.body;
+            const result = await cartCollection.insertOne(cart);
+            res.json(result);
+        });
+        app.get('/cart', async (req, res) => {
+            const cursor = cartCollection.find({})
+            const cartIteams = await cursor.toArray();
+            res.send(cartIteams);
+        })
         app.get('/comments', async (req, res) => {
             const cursor = commentsCollection.find({})
             const comments = await cursor.toArray();
