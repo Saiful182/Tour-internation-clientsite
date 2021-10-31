@@ -47,7 +47,22 @@ async function run() {
             console.log('hitted');
             res.json(result);
         })
+        app.put('/cart/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedCart = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    approval: updatedCart.approval = "Approved"
+                }
+            };
+            console.log(req.body);
+            const result = await cartCollection.updateOne(filter, updateDoc, options);
+            console.log('getting id', id);
+            res.json(result);
 
+        })
         app.get('/comments', async (req, res) => {
             const cursor = commentsCollection.find({})
             const comments = await cursor.toArray();
