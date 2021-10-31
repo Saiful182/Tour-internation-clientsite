@@ -16,10 +16,11 @@ async function run() {
         await client.connect();
         const database = client.db('Tour_International');
         const tourCollection = database.collection('tour_pakages');
-        const bdTourCollection = database.collection('bd_places');
+
         const guideCollection = database.collection('guide');
         const stuffCollection = database.collection('stuff');
         const commentsCollection = database.collection('comments');
+
 
         app.get('/comments', async (req, res) => {
             const cursor = commentsCollection.find({})
@@ -39,11 +40,10 @@ async function run() {
             res.send(guide);
         })
 
-        app.get('/bdplaces', async (req, res) => {
-            const cursor = bdTourCollection.find({});
-            const bdplaces = await cursor.toArray();
-            res.send(bdplaces);
-
+        app.post('/tourpakages', async (req, res) => {
+            const pakages = req.body;
+            const result = await tourCollection.insertOne(pakages);
+            res.json(result);
         })
         app.get('/tourpakages', async (req, res) => {
             const cursor = tourCollection.find({});
