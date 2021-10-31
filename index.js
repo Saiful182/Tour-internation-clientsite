@@ -17,7 +17,6 @@ async function run() {
         await client.connect();
         const database = client.db('Tour_International');
         const tourCollection = database.collection('tour_pakages');
-
         const guideCollection = database.collection('guide');
         const stuffCollection = database.collection('stuff');
         const commentsCollection = database.collection('comments');
@@ -25,6 +24,8 @@ async function run() {
 
         app.post('/cart', async (req, res) => {
             const cart = req.body;
+            console.log('get hitted');
+
             const result = await cartCollection.insertOne(cart);
             res.json(result);
         });
@@ -37,13 +38,13 @@ async function run() {
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
             const user = await cartCollection.findOne(query);
-            console.log(user);
-            res.send(user);
+            res.json(user);
         })
-        app.delete('/cart:/id', async (req, res) => {
+        app.delete('/cart/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await cartCollection.deleteOne(query);
+            console.log('hitted');
             res.json(result);
         })
 
