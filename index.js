@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
+const ObjectId = require('mongodb').ObjectId;
 app.use(cors());
 app.use(express.json());
 
@@ -32,6 +33,20 @@ async function run() {
             const cartIteams = await cursor.toArray();
             res.send(cartIteams);
         })
+        app.get('/cart/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const user = await cartCollection.findOne(query);
+            console.log(user);
+            res.send(user);
+        })
+        app.delete('/cart:/id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await cartCollection.deleteOne(query);
+            res.json(result);
+        })
+
         app.get('/comments', async (req, res) => {
             const cursor = commentsCollection.find({})
             const comments = await cursor.toArray();
@@ -60,6 +75,7 @@ async function run() {
             const tourPakages = await cursor.toArray();
             res.send(tourPakages);
         })
+
     }
     finally {
         // await client.close();
